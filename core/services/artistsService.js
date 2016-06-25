@@ -3,11 +3,9 @@
 const Promise = require('bluebird');
 
 const Types = require('../types/documentTypes');
+const ARTIST = Types.ARTIST;
 
-const ALBUM = Types.ALBUM;
-
-
-class AlbumsService {
+class ArtistsService {
   constructor(db){
     this.db = db;
   }
@@ -18,19 +16,26 @@ class AlbumsService {
    * @param _id The band id
    * @returns {Promise} Returns a Promise than when solved returns all the albums
    */
-  findByBand(band){
+
+/*
+   findByBand(_id){
+   }  
+   
+*/   
+
+    findByBand(band){
 	  return new Promise((resolve, reject) => {
-      this.db.find({ docType: ALBUM, _id: { $in: band.albums }}, (err, albums) => {
-        if (err) return reject(err);		
-		resolve(albums);	
+      this.db.find({ docType: ARTIST, _id: { $in: band.artists }}, (err, artists) => {		  
+        if (err) return reject(err);
+		
+		resolve(artists);	
 	  })
 	  })
   }
 
-  
   find(_id){
     
   }
 }
 
-module.exports = AlbumsService;
+module.exports = ArtistsService;

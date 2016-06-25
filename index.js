@@ -9,8 +9,14 @@ const bodyParser = require('body-parser');
 const api = require('./api');
 
 // TODO: Usar 'datastore/workshop.db' para levantar la base de datos.
+const db = new Datastore({
+  filename: 'datastore/workshop.db',
+  autoload: true
+});
 
 const app = express();
+
+const commentsSrv="";
 
 app.use(cors());
 app.use(bodyParser.json());

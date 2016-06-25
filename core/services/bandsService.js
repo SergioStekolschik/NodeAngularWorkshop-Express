@@ -8,9 +8,10 @@ const ALBUM = Types.ALBUM;
 const BAND = Types.BAND;
 
 class BandsService {
-  constructor(db, AlbumsService){
+  constructor(db, AlbumsService,ArtistsService){
     this.db = db;
     this.albumsService = AlbumsService;
+	this.artistsService = ArtistsService;
   }
   
   findAll() {
@@ -49,9 +50,25 @@ class BandsService {
     return new Promise((resolve, reject) => {
       this.db.findOne({docType: BAND, _id}, (err, band) => {
         // TODO: Usar albumService.findByBand y buscar en la base de datos los artistas de la banda.
-        
-    });
+
+		if (err) return reject(err);
+			
+		this.albumsService.findByBand(band)
+		.then(albums => {
+			band.albums = albums;
+			return this.artistsService.findByBand(band)
+			
+		})
+		.then(artists => {
+			band.artists = artists;
+			resolve(band);
+		})		
+	  })
+    })
   }
 }
 
 module.exports = BandsService;
+
+
+			
